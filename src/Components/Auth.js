@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Auth = () => {
+
+    const BASE_URL = 'https://social-connect-backend.onrender.com'
     const navigate = useNavigate();
     const [account, setAccount] = useState(true);
     const [toaststate, setToastState] = useState(false)
@@ -51,7 +53,7 @@ const Auth = () => {
 
     async function signUp() {
         try {
-            const response = await fetch('http://localhost:3002/users/signup', {
+            const response = await fetch(`${BASE_URL}/users/signup`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -80,7 +82,7 @@ const Auth = () => {
 
     async function login() {
         try {
-            const response = await fetch('http://localhost:3002/users/login', {
+            const response = await fetch(`${BASE_URL}/users/login`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

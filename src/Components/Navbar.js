@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 
 function NavbarComp() {
 
+    const BASE_URL = 'https://social-connect-backend.onrender.com'
+
     const [data,setData] = useState({
         Email: '',
         Name: '',
@@ -27,7 +29,7 @@ function NavbarComp() {
     useEffect(()=>{
 
        async function fetchData(){
-            const response = await fetch('http://localhost:3002/users/user',{
+            const response = await fetch(`${BASE_URL}/users/user`,{
                 method: "GET",
                 mode: "cors",
                 cache: "no-cache",
