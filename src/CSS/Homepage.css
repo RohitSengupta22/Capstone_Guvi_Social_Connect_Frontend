@@ -1,0 +1,11 @@
+@media screen and (max-width: 700px) {
+    .Postcard {
+      width: 500px !important;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .Postcard {
+      width: 350px !important;
+    }
+  }
