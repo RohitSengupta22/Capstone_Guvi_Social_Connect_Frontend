@@ -89,7 +89,7 @@ const Homepage = () => {
   useEffect(() => {
 
     async function fetchPosts() { //fetching all posts in feed
-      const response = await fetch('${BASE_URL}/posts/allposts')
+      const response = await fetch(`${BASE_URL}/posts/allposts`)
       if (!response.ok) {
         throw new Error('Network response was not ok.');
       }
@@ -105,7 +105,7 @@ const Homepage = () => {
   useEffect(() => {
 
     async function fetchData() { //fetch user data
-      const response = await fetch('${BASE_URL}/users/user', {
+      const response = await fetch(`${BASE_URL}/users/user`, {
         method: "GET",
         mode: "cors",
         cache: "no-cache",
@@ -148,7 +148,7 @@ const Homepage = () => {
       alert("Enter proper title and description")
     } else {
 
-      const response = await fetch('${BASE_URL}/posts/createpost', {
+      const response = await fetch(`${BASE_URL}/posts/createpost`, {
         method: 'POST',
         mode: 'cors',
         headers: {
