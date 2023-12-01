@@ -16,6 +16,8 @@ import '../CSS/Homepage.css'
 
 const Homepage = () => {
 
+  const BASE_URL = 'https://social-connect-backend.onrender.com'
+
   const authToken = localStorage.getItem('token')
   const [userId, setUserId] = useState("")
 
@@ -42,7 +44,7 @@ const Homepage = () => {
     try {
 
 
-      const response = await fetch(`http://localhost:3002/posts/comments/${id}`, {
+      const response = await fetch(`${BASE_URL}/posts/comments/${id}`, {
         method: "GET",
         mode: "cors",
         cache: "no-cache",
@@ -87,7 +89,7 @@ const Homepage = () => {
   useEffect(() => {
 
     async function fetchPosts() { //fetching all posts in feed
-      const response = await fetch('http://localhost:3002/posts/allposts')
+      const response = await fetch('${BASE_URL}/posts/allposts')
       if (!response.ok) {
         throw new Error('Network response was not ok.');
       }
@@ -103,7 +105,7 @@ const Homepage = () => {
   useEffect(() => {
 
     async function fetchData() { //fetch user data
-      const response = await fetch('http://localhost:3002/users/user', {
+      const response = await fetch('${BASE_URL}/users/user', {
         method: "GET",
         mode: "cors",
         cache: "no-cache",
@@ -146,7 +148,7 @@ const Homepage = () => {
       alert("Enter proper title and description")
     } else {
 
-      const response = await fetch('http://localhost:3002/posts/createpost', {
+      const response = await fetch('${BASE_URL}/posts/createpost', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -186,7 +188,7 @@ const Homepage = () => {
     const authToken = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`http://localhost:3002/posts/allposts/${id}/like`, {
+      const response = await fetch(`${BASE_URL}/posts/allposts/${id}/like`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -229,7 +231,7 @@ const Homepage = () => {
     try{
 
    
-        const response = await fetch(`http://localhost:3002/posts/likes/${id}`, {
+        const response = await fetch(`${BASE_URL}/posts/likes/${id}`, {
           method: "GET",
           mode: "cors",
           cache: "no-cache",
@@ -276,7 +278,7 @@ const Homepage = () => {
       alert("Enter Proper Comment")
     } else {
 
-      const response = await fetch(`http://localhost:3002/posts/addcomment/${commentPostId}`, {
+      const response = await fetch(`${BASE_URL}/posts/addcomment/${commentPostId}`, {
         method: 'POST',
         mode: 'cors',
         headers: {
