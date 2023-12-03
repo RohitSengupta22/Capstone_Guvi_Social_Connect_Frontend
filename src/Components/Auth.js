@@ -33,7 +33,7 @@ const Auth = () => {
         Password: ''
     });
     const [authToken, setAuthToken] = useState('')
-    const [loader, setLoader] = false(false)
+    const [loader, setLoader] = useState(false)
 
     function signupHandler() {
         setAccount(false);
@@ -53,43 +53,64 @@ const Auth = () => {
         setLogincred({ ...logincred, [name]: value });
     }
 
+    function openLoader(){
+        setLoader(true)
+    }
+
+    function closeLoader(){
+        setLoader(false)
+    }
+
 
     async function signUp() {
 
-        setLoader(true)
-        try {
-            const response = await fetch(`${BASE_URL}/users/signup`, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(signupcred),
-            });
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(signupcred.Email==='' || signupcred.FirstName==='' || signupcred.LastName==='' || signupcred.DOB==='' || signupcred.Password===''){
+            alert('Enter all required fields')
+        }else if(!emailRegex.test(signupcred.Email)){
+            alert("enter a valid email")
+        }else{
 
-            if (response.ok) {
-                const res = await response.json();
-
-                setAuthToken(res.token);
-
-                localStorage.setItem('token', res.token);
-                navigate('/home')
-            } else {
-
-                alert("Email Already Exists!")
+            try {
+                openLoader()
+                const response = await fetch(`${BASE_URL}/users/signup`, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(signupcred),
+                });
+    
+                
+    
+                if (response.ok) {
+                    const res = await response.json();
+    
+                    setAuthToken(res.token);
+    
+                    localStorage.setItem('token', res.token);
+                    navigate('/home')
+                } else {
+    
+                    alert("Email Already Exists!")
+                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                closeLoader()
             }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoader(false)
+
         }
+       
     }
 
 
 
     async function login() {
 
-        setLoader(true)
+        openLoader()
         try {
             const response = await fetch(`${BASE_URL}/users/login`, {
                 method: 'POST',
@@ -115,7 +136,7 @@ const Auth = () => {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoader(false)
+            closeLoader()
         }
     }
 
@@ -131,11 +152,11 @@ const Auth = () => {
 
             {
                 loader && <div>
-                    <Button onClick={handleOpen}>Show backdrop</Button>
+                   
                     <Backdrop
                         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                        open={open}
-                        onClick={handleClose}
+                        open={openLoader}
+                        onClick={closeLoader}
                     >
                         <CircularProgress color="inherit" />
                     </Backdrop>
@@ -215,6 +236,7 @@ const Auth = () => {
                                     id="outlined-required"
                                     label="Lastname"
                                     name='LastName'
+                                    placeholder='DD/MM/YYYY'
                                     style={{ width: '90%', margin: '10px' }}
                                     onChange={signupcredHandler}
                                     value={signupcred.Lastname}
