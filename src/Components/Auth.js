@@ -11,6 +11,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const Auth = () => {
@@ -31,6 +33,7 @@ const Auth = () => {
         Password: ''
     });
     const [authToken, setAuthToken] = useState('')
+    const [loader, setLoader] = false(false)
 
     function signupHandler() {
         setAccount(false);
@@ -52,6 +55,8 @@ const Auth = () => {
 
 
     async function signUp() {
+
+        setLoader(true)
         try {
             const response = await fetch(`${BASE_URL}/users/signup`, {
                 method: 'POST',
@@ -69,18 +74,22 @@ const Auth = () => {
 
                 localStorage.setItem('token', res.token);
                 navigate('/home')
-            } else{
-                
+            } else {
+
                 alert("Email Already Exists!")
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoader(false)
         }
     }
 
 
 
     async function login() {
+
+        setLoader(true)
         try {
             const response = await fetch(`${BASE_URL}/users/login`, {
                 method: 'POST',
@@ -105,6 +114,8 @@ const Auth = () => {
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoader(false)
         }
     }
 
@@ -118,7 +129,20 @@ const Auth = () => {
 
         <div>
 
-           
+            {
+                loader && <div>
+                    <Button onClick={handleOpen}>Show backdrop</Button>
+                    <Backdrop
+                        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                        open={open}
+                        onClick={handleClose}
+                    >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                </div>
+            }
+
+
 
             {account ? <Container className='authcontainer'>
 
@@ -150,8 +174,10 @@ const Auth = () => {
                                 <Button variant="contained" style={{ width: '90%', marginTop: '20px', backgroundColor: '#22297E' }} onClick={login}>Login</Button>
                                 <hr style={{ width: '100%', borderTop: '2px solid black', margin: '20px 0' }} />
                                 <Button variant="contained" style={{ width: '90%', marginTop: '20px', backgroundColor: 'green', color: 'white', fontWeight: 'bold' }} onClick={signupHandler}>Create a New Account </Button>
-                                <h6 style={{ textAlign: 'center', margin: '20px 0', fontWeight: 'lighter' }}>Forgot Password?</h6>
+                                
                             </Box>
+
+
 
 
 
